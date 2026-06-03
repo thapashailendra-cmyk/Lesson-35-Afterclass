@@ -1,110 +1,79 @@
-/* Background */
-body {
-    background: linear-gradient(135deg, #eef2f3, #d9e4f5);
-    font-family: Arial, sans-serif;
+body {}
+let balance = 0;
+// Update balance display
+function updateBalance() {
+    document.getElementById("balance").innerText = balance;
 }
-
-/* Title */
-h2 {
-    font-weight: 700;
-    color: #1f2d3d;
-    margin-bottom: 20px;
+// Add transaction to list
+function addTransaction(desc, amount, type) {
+    let list = document.getElementById("list");
+    let item = document.createElement("li");
+    item.classList.add("list-group-item");
+    if (type === "income") {
+        item.innerHTML = `${desc} - &#8377; ${amount}`;
+        item.style.color = "green";
+    } else {
+        item.innerHTML = `${desc} - &#8377; ${amount}`;
+        item.style.color = "red";
+    }
+    list.appendChild(item);
 }
+// Add Income
+function addIncome() {
+    let desc = document.getElementById("desc").value;
+    let amount = parseInt(document.getElementById("amount").value);
 
-/* Card styling */
-.card {
-    border: none;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    background: #ffffff;
+    if (desc === "" || isNaN(amount)) {
+        alert("Enter valid data");
+        return;
+    }
+    balance += amount;
+    updateBalance();
+    addTransaction(desc, amount, "income");
 }
-
-/* Balance section */
-.card h4 {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #2c3e50;
+// Add Expense
+function addExpense() {
+    let desc = document.getElementById("desc").value;
+    let amount = parseInt(document.getElementById("amount").value);
+   if (desc === "" || isNaN(amount)) {
+        alert("Enter valid data");
+        return;
+    }
+    balance -= amount;
+    updateBalance();
+    addTransaction(desc, amount, "expense");
 }
-
-/* Inputs */
-input.form-control {
-    border-radius: 10px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    transition: 0.3s;
+let totalIncome = 0;
+let totalExpense = 0;
+// Update UI
+function updateUI() {
+    document.getElementById("balance").innerText = balance;
+    document.getElementById("income").innerText = totalIncome;
+    document.getElementById("expense").innerText = totalExpense;
 }
-
-input.form-control:focus {
-    border-color: #4a90e2;
-    box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+// Add Income
+function addIncome() {
+    let desc = document.getElementById("desc").value;
+    let amount = parseInt(document.getElementById("amount").value);
+    if (desc === "" || isNaN(amount)) {
+        alert("Enter valid data");
+        return;
+    }
+    balance += amount;
+    totalIncome += amount;
+    updateUI();
+    addTransaction(desc, amount, "income");
 }
-
-/* Buttons */
-.btn {
-    width: 100%;
-    border-radius: 10px;
-    padding: 10px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-/* Income button */
-.btn-success {
-    background: #28a745;
-    border: none;
-}
-
-.btn-success:hover {
-    background: #218838;
-}
-
-/* Expense button */
-.btn-danger {
-    background: #dc3545;
-    border: none;
-}
-
-.btn-danger:hover {
-    background: #c82333;
-}
-
-/* Summary cards */
-h5 {
-    font-weight: 600;
-    color: #34495e;
-}
-
-h4 span {
-    font-size: 1.4rem;
-}
-
-/* Income/Expense colors */
-.text-success {
-    color: #28a745 !important;
-    font-weight: bold;
-}
-
-.text-danger {
-    color: #dc3545 !important;
-    font-weight: bold;
-}
-
-/* Transaction list box */
-.list-group {
-    max-height: 260px;
-    overflow-y: auto;
-    border-radius: 10px;
-}
-
-/* List items */
-.list-group-item {
-    border-radius: 8px;
-    margin-bottom: 6px;
-    border: 1px solid #eee;
-    font-size: 0.95rem;
-}
-
-/* Hover effect */
-.list-group-item:hover {
-    background: #f8f9fa;
+// Add Expense
+function addExpense() {
+    let desc = document.getElementById("desc").value;
+    let amount = parseInt(document.getElementById("amount").value);
+    if (desc === "" || isNaN(amount)) {
+        alert("Enter valid data");
+        return;
+    }
+    balance -= amount;
+    totalExpense += amount;
+    updateUI();
+    addTransaction(desc, amount, "expense");
 }
